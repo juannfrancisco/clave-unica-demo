@@ -1,0 +1,34 @@
+# Copyright Ranto
+# Cloud Build Pipeline
+
+steps:
+  - id: 'Build'
+    name: 'maven:3-jdk-11'
+    entrypoint: mvn
+    args: ["package", "-Dmaven.test.skip=true"]
+
+  - id: 'Create image'
+    name: 'gcr.io/cloud-builders/docker'
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/clave-unica-dummy:$BUILD_ID", "."]
+
+  - id: 'Push image'
+    name: 'gcr.io/cloud-builders/docker'
+    args: ["push", "gcr.io/$PROJECT_ID/clave-unica-dummy:$BUILD_ID"]
+
+  - id: 'Create or update run services'
+    name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'clave-unica-dummy'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/clave-unica-dummy:$BUILD_ID'
+      - '--region'
+      - 'us-east4'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--port'
+      - '8080'
+
+images: ["gcr.io/$PROJECT_ID/clave-unica-dummy:$BUILD_ID"]
