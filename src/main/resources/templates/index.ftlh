@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -9,9 +9,19 @@
 </head>
 <body>
 
-<h1>Login Clave Unica</h1>
+    <h1>Login Clave Única</h1>
+    <div>th:text="${client_id}"</div>
+    <div>th:text="client_id"</div>
+    <div>=====</div>
+    <div>${response_type}</div>
+    <div>${scope}</div>
+    <div>${redirect_uri}</div>
+    <div>${ state }</div>
+
+
     <form action="/login" method="post">
         <div>
+        <input type="text" placeholder="Usuario">
             <input type="text" placeholder="Usuario">
         </div>
         <div>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="/css/favicon.ico">
+    <title>ClaveÚnica Demo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link href="/css/icon.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+
+</head>
+<body>
+
+<header class="headerloginCU d-none d-md-block">
+    <div class="container">
+        <div class="barra">
+            <div class="franja">
+                <span class="franjaazul"></span>
+                <span class="franjaroja"></span>
+            </div>
+            <h3>Gobierno de Chile</h3>
+        </div>
+    </div>
+</header>
+<main class="mainloginCU">
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-lg-6 offset-md-2 offset-lg-3 border-fr-grey">
+                    <div class="header-form">
+                        <div class="franja">
+                            <span class="franjaazul"></span>
+                            <span class="franjaroja"></span>
+                        </div>
+                        <img src="/img/clave_unica_color.svg" alt="ClaveÚnica">
+                        <div class="header-form-title">
+                            <h2>DEMO CLAVE UNICA</h2>
+                            <p>Requiere autenticación</p>
+                        </div>
+                    </div>
+
+                    <form class="goblogin" onsubmit="onSubmit()" method="POST" action="/login"  id="login-form" autocomplete="off">
+
+                        <input type="hidden" name="client_id" th:value="${client_id}">
+                        <input type="hidden" name="response_type" th:value="${response_type}">
+                        <input type="hidden" name="scope" th:value="${scope}">
+                        <input type="hidden" name="redirect_uri" th:value="${redirect_uri}">
+                        <input type="hidden" name="state" th:value="${state}">
+
+                        <div class="form-group group-label ">
+                            <!-- class control-success cuando el value sea correcto y clase control-error cuando el campo se erroneo-->
+                            <input id="uname" name="run" type="text" class="form-control rut"
+                                   value="" autocomplete="off" required
+                                   minlength=""
+                                   maxlength="">
+                            <label>Ingresa tu RUN</label>
+                            <i class="material-icons gob-cancel">cancel</i>
+                            <i class="material-icons gob-check">check</i>
+                            <span class="gob--lbl-error">El RUN debe estar en el formato 12.312.312-3</span>
+                        </div>
+
+                        <div class="form-group group-label ">
+                            <!-- class control-success cuando el value sea correcto y clase control-error cuando el campo se erroneo-->
+                            <input id="pword" type="password" class="form-control" name="password"
+                                   autocomplete="new-password" required minlength=""
+                                   maxlength="">
+                            <label>Ingresa tu Clave</label>
+                            <i class="material-icons gob-cancel">cancel</i>
+                            <i class="material-icons gob-check">check</i>
+                            <span class="gob--lbl-error">La contraseña debe tener al menos  dígitos</span>
+                        </div>
+                        <a class="recovery" href="https://claveunica.gob.cl/recuperar"> ¿Olvidaste tu ClaveÚnica?</a>
+                        <div class="form-buttom" style="margin-top: 30px">
+
+                            <div class="col-xs-12" style="text-align: right">
+                                <button class="gob-btn-primary disabled_butt"
+                                        data-callback="onSubmit"
+                                        id="login-submit">
+                                    Continuar
+                                </button>
+                            </div>
+
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="row justify-content-md-center">
+                <div class="col-md-8 col-lg-6 foofr">
+                    <a href="https://claveunica.gob.cl" class="text-reset">¿No tienes ClaveÚnica?</a>
+                    <a href="tel:600 360 33 03" class="text-reset float-right">Ayuda al 600 360 33 03</a>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

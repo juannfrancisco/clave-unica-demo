@@ -25,15 +25,22 @@ public class ClaveUnicaController {
     ){
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("index");
+        modelAndView.addObject( "client_id", client_id);
+        modelAndView.addObject( "response_type", response_type);
+        modelAndView.addObject( "scope", scope);
+        modelAndView.addObject( "redirect_uri", redirect_uri);
+        modelAndView.addObject( "state", state);
+
+        modelAndView.setViewName("login");
         return modelAndView;
     }
 
-    @PostMapping( "login" )
-    public ResponseEntity<Void> login(){
+    @PostMapping( path="login", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE} )
+    public ResponseEntity<Void> login(LoginRequest login){
+        System.out.println(login.getRedirect_uri());
         return ResponseEntity
                 .status(HttpStatus.FOUND)
-                .location(URI.create("http://localhost:4200/clave-unica?code=wd&state=asd"))
+                .location(URI.create(login.getRedirect_uri()+"?code=wd&state=asd"))
                 .build();
     }
 
