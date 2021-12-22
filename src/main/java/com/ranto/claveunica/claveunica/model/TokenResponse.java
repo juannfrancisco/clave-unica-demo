@@ -10,7 +10,7 @@ public class TokenResponse {
     public TokenResponse() {
     }
 
-    public TokenResponse(String access_token, String token_type, Integer expires_in, String id_token) {
+    public TokenResponse(String id_token, String token_type, Integer expires_in, String access_token) {
         this.access_token = access_token;
         this.token_type = token_type;
         this.expires_in = expires_in;

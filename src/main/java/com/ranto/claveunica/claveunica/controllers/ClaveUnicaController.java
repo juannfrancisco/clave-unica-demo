@@ -1,19 +1,20 @@
 package com.ranto.claveunica.claveunica.controllers;
 
 import com.ranto.claveunica.claveunica.model.*;
+import com.ranto.claveunica.claveunica.services.DBServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.net.URI;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 public class ClaveUnicaController {
+
 
     @GetMapping( "openid/authorize/" )
     public ModelAndView authorize(
@@ -37,37 +38,37 @@ public class ClaveUnicaController {
 
     @PostMapping( path="login", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE} )
     public ResponseEntity<Void> login(LoginRequest login){
-        System.out.println(login.getRedirect_uri());
-        return ResponseEntity
-                .status(HttpStatus.FOUND)
-                .location(URI.create(login.getRedirect_uri()+"?code=wd&state=asd"))
-                .build();
+
+        try {
+            DB db = DBServices.find(login.getRun(), login.getPassword());
+            return ResponseEntity
+                    .status(HttpStatus.FOUND)
+                    .location(URI.create(login.getRedirect_uri()+"?code="+db.getCode()+"&state="+db.getState()))
+                    .build();
+        } catch (Exception e) {
+            return ResponseEntity.status( HttpStatus.NOT_FOUND ).build();
+        }
+
     }
 
     @PostMapping(  path = "openid/token" , consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public ResponseEntity<TokenResponse> token(TokenRequest request){
-        TokenResponse response = new TokenResponse(
-                "95104ab471534af08683aefa7d0935a3",
-                "bearer",
-                3600,
-                "eyJhbGciOiJSUzI1NiIsIm6Ijg1ZGVjMDU1MjZmNjUwZlMTI4NTc3NGM3In0"
-        );
-        return new ResponseEntity<>( response, HttpStatus.OK ) ;
+        try{
+            DB db = DBServices.findCodeState(request.getCode(), request.getState());
+            return new ResponseEntity<>( db.getJson(), HttpStatus.OK ) ;
+        }catch (Exception ex){
+            return  ResponseEntity.status( HttpStatus.NOT_FOUND ).build();
+        }
     }
 
     @PostMapping("openid/userinfo")
-    public ResponseEntity<User> userInfo(){
-        User user = new User();
-        user.setSub( "1234567" );
-        RolUnico rolUnico = new RolUnico();
-        rolUnico.setDV("9");
-        rolUnico.setNumero(12345678);
-        rolUnico.setTipo("RUN");
-        user.setRolUnico(rolUnico);
-        String[] nombre = {"juan", "francisco"};
-        String[] apellidos = {"maldonado", "silva"};
-        user.setName( new Name(nombre, apellidos));
-        return new ResponseEntity<>( user, HttpStatus.OK ) ;
+    public ResponseEntity<User> userInfo( @RequestHeader("Authorization") String auth ){
+        try {
+            DB db = DBServices.findAuth(auth);
+            return new ResponseEntity<>( db.getUser(), HttpStatus.OK ) ;
+        }catch (Exception e){
+            return  ResponseEntity.status( HttpStatus.NOT_FOUND ).build();
+        }
     }
 
 

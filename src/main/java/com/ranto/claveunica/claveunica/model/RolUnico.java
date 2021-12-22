@@ -1,6 +1,5 @@
 package com.ranto.claveunica.claveunica.model;
 
-import io.swagger.models.auth.In;
 
 public class RolUnico {
 
@@ -8,6 +7,15 @@ public class RolUnico {
     private Integer numero;
     private String tipo;
 
+
+    public RolUnico() {
+    }
+
+    public RolUnico(String DV, Integer numero, String tipo) {
+        this.DV = DV;
+        this.numero = numero;
+        this.tipo = tipo;
+    }
 
     public String getDV() {
         return DV;

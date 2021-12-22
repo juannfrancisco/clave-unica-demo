@@ -5,6 +5,15 @@ public class User {
     private RolUnico RolUnico;
     private Name name;
 
+    public User() {
+    }
+
+    public User(String sub, RolUnico rolUnico, Name name) {
+        this.sub = sub;
+        RolUnico = rolUnico;
+        this.name = name;
+    }
+
     public String getSub() {
         return sub;
     }
@@ -13,11 +22,11 @@ public class User {
         this.sub = sub;
     }
 
-    public com.ranto.claveunica.claveunica.model.RolUnico getRolUnico() {
+    public RolUnico getRolUnico() {
         return RolUnico;
     }
 
-    public void setRolUnico(com.ranto.claveunica.claveunica.model.RolUnico rolUnico) {
+    public void setRolUnico(RolUnico rolUnico) {
         RolUnico = rolUnico;
     }
 
