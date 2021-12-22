@@ -8,6 +8,8 @@ public class TokenRequest {
     private String grant_type;
     private String code;
     private String state;
+    private String run;
+    private String password;
 
 
     public String getCliend_id() {
@@ -56,5 +58,22 @@ public class TokenRequest {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+
+    public String getRun() {
+        return run;
+    }
+
+    public void setRun(String run) {
+        this.run = run;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
